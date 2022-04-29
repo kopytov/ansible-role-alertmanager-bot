@@ -1,9 +1,8 @@
 {{ define "telegram.default" }}
 {{ range .Alerts }}
-{{ if eq .Status "firing"}}🔥 <b>{{ .Status | toUpper }}</b> 🔥{{ else }}<b>{{ .Status | toUpper }}</b>{{ end }}
-<b>{{ .Labels.alertname }}</b>
-{{ .Annotations.message }}
-<b>Duration:</b> {{ duration .StartsAt .EndsAt }}{{ if ne .Status "firing"}}
-<b>Ended:</b> {{ .EndsAt | since }}{{ end }}
+{{ if eq .Status "firing" }}🔥{{ else }}✅{{ end }} [{{ .Labels.environment }}]{{ if .Labels.instance }} {{ .Labels.instance }}{{ end }} | <b>{{ .Labels.alertname }}</b>{{ if .Annotations.summary }}: {{ .Annotations.summary }}{{ end }}
+{{ if eq .Status "firing" }}{{ .Annotations.description }}{{ end }}
+<b>Duration:</b> {{ duration .StartsAt .EndsAt }}
+{{ if ne .Status "firing" }}<b>Ended:</b> {{ .EndsAt | since }}{{ end }}
 {{ end }}
 {{ end }}
