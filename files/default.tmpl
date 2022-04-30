@@ -1,10 +1,10 @@
 {{ define "telegram.default" }}
 {{ range .Alerts }}
-{{ if eq .Status "firing" }}{{ if eq .Labels.severity "warning" }}⚠️{{ else }}🔥{{ end }}{{ else }}✅{{ end }} <b>{{ .Labels.alertname }}</b> | {{ if .Labels.instance }}{{ .Labels.job }}@{{ .Labels.instance }}{{ end }} [{{ .Labels.environment }}]{{ if .Annotations.summary }}: {{ .Annotations.summary }}{{ end }}
+{{ if eq .Status "firing" }}{{ if eq .Labels.severity "warning" }}⚠️{{ else if eq .Labels.severity "info" }}ℹ️{{ else }}🔥{{ end }}{{ else }}✅{{ end }} <b>{{ .Labels.alertname }}</b> | {{ if .Labels.instance }}{{ .Labels.job }}@{{ .Labels.instance }}{{ end }} [{{ .Labels.environment }}]{{ if .Annotations.summary }}: {{ .Annotations.summary }}{{ end }}
 {{ if eq .Status "firing" }}
 {{ .Annotations.description }}
 {{ end }}
-<b>Duration:</b> {{ duration .StartsAt .EndsAt }}
-{{ if ne .Status "firing" }}<b>Ended:</b> {{ .EndsAt | since }}{{ end }}
+<b>Продолжительнось:</b> {{ duration .StartsAt .EndsAt }}
+{{ if ne .Status "firing" }}<b>Завершено:</b> {{ .EndsAt | since }}{{ end }}
 {{ end }}
 {{ end }}
